@@ -41,11 +41,37 @@
       margin-bottom: 15px;
       color: #333;
     }
+    .hidden {
+      display: none !important;
+    }
+    #formulari-nom[style*="display: none"],
+    #salutacio[style*="display: none"] {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      min-height: 0 !important;
+      box-shadow: none !important;
+    }
   </style>
 </head>
 <body>
-  <h1>Test de conducció 🚗</h1>
+  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: auto;">
+    <h1 style="margin: 0;">Test de conducció 🚗</h1>
+    <button id="esborrar-nom" style="display:none; margin-left: 20px;">Tancar sessió</button>
+  </div>
   <div id="timer">⏱️ 00:00</div>
+  <div id="marcador"></div>
+  <div id="partida"></div>
+  <button id="enviar-resultats" class="hidden">Enviar Resultats</button>
+  <form id="formulari-nom" style="margin:20px 0;">
+    <input type="text" id="input-nom" placeholder="Escriu el teu nom" required>
+    <button type="submit">Començar</button>
+  </form>
+  <div id="salutacio" style="display:none;">
+    <span id="missatge-salutacio"></span>
+  </div>
   <div id="quiz-container"></div>
 
   <script type="module" src="script.js"></script>

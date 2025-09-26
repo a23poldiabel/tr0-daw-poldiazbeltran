@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  kahoot:
+    build: .
+    container_name: Projecte0
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+
+
+volumes:
+  db_data:
