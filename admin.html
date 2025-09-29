@@ -3,128 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Administra preguntes - Test de conducció 🚗</title>
+  <!-- Bootstrap ya está incluido abajo -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 20px;
-      text-align: center;
-    }
-
-    #admin-container {
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-      text-align: left;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    a.back-link {
-      display: inline-block;
-      margin-bottom: 15px;
-      color: #2196f3;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a.back-link:hover {
-      text-decoration: underline;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    #crud-app > button#add-pregunta {
-      display: block;
-      margin: 0 auto 15px auto;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-
-    th {
-      background: #f0f0f0;
-    }
-
-    tr:nth-child(even) {
-      background: #fafafa;
-    }
-
-    .actions button {
-      padding: 6px 12px;
-      margin-right: 5px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    
-    td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    word-wrap: break-word;   /* Permet trencar paraules llargues */
-    overflow-wrap: break-word; /* Compatibilitat amb navegadors moderns */
-    }
-
-
-    .actions button.edit { background: #4caf50; color: white; }
-    .actions button.delete { background: #f44336; color: white; }
-
-    .form-row {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: inline-block;
-      width: 120px;
-      font-weight: bold;
-    }
-
-    input[type="text"] {
-      width: calc(100% - 130px);
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    button.submit-btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background: #2196f3;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button.submit-btn:hover {
-      background: #1976d2;
-    }
+    .img-preview { max-width: 120px; max-height: 80px; border-radius: 6px; border: 1px solid #ccc; }
+    td { word-break: break-word; }
   </style>
 </head>
 <body>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <div class="container py-4">
-    <a href="index.html" class="btn btn-link mb-3">← Tornar al test</a>
-    <h1 class="mb-4">Administració de preguntes 🚗</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <a href="index.html" class="btn btn-link">← Tornar al test</a>
+      <h1 class="mb-0">Administració de preguntes 🚗</h1>
+    </div>
     <div id="crud-app"></div>
   </div>
   <script src="admin.js"></script>

@@ -103,80 +103,116 @@ if ($action === 'edit' && isset($_GET['id'])) {
                     <div class="mb-3">
                         <label class="form-label">Imatge (URL)</label>
                         <input type="text" name="imatge" class="form-control" value="<?=escape($edit['imatge'])?>">
-                        <?php if ($edit['imatge']): ?>
-                            <img src="<?=escape($edit['imatge'])?>" class="img-preview mt-2">
-                        <?php endif; ?>
-                    </div>
-                    <?php foreach ($edit['respuestas'] as $i => $r): ?>
-                        <div class="mb-2 row align-items-center">
-                            <div class="col-8">
-                                <input type="text" name="respuestas[]" class="form-control" value="<?=escape($r['respuesta'])?>" required>
+                        <body class="bg-light">
+                        <div class="container py-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <a href="index.html" class="btn btn-link">← Tornar al test</a>
+                                <h1 class="mb-0">Administració de preguntes 🚗</h1>
                             </div>
-                            <div class="col-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="correcta" value="<?=$i?>" <?=($r['es_correcta']?'checked':'')?> required>
-                                    <label class="form-check-label">Correcta</label>
+                            <?php if ($edit): ?>
+                                <div class="card mb-4">
+                                    <div class="card-header">Editar pregunta</div>
+                                    <div class="card-body">
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="save">
+                                            <input type="hidden" name="id" value="<?=escape($edit['id'])?>">
+                                            <div class="mb-3">
+                                                <label class="form-label">Pregunta</label>
+                                                <input type="text" name="pregunta" class="form-control" value="<?=escape($edit['pregunta'])?>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Imatge (URL)</label>
+                                                <input type="text" name="imatge" class="form-control" value="<?=escape($edit['imatge'])?>">
+                                                <?php if ($edit['imatge']): ?>
+                                                    <img src="<?=escape($edit['imatge'])?>" class="img-preview mt-2">
+                                                <?php endif; ?>
+                                            </div>
+                                            <?php foreach ($edit['respuestas'] as $i => $r): ?>
+                                                <div class="mb-2 row align-items-center">
+                                                    <div class="col-8">
+                                                        <input type="text" name="respuestas[]" class="form-control" value="<?=escape($r['respuesta'])?>" required placeholder="Resposta <?=($i+1)?>">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="correcta" value="<?=$i?>" <?= $r['es_correcta'] ? 'checked' : '' ?> required>
+                                                            <label class="form-check-label">Correcta</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                            <button type="submit" class="btn btn-primary mt-3">Desar</button>
+                                            <a href="admin_crud.php" class="btn btn-secondary mt-3">Cancel·lar</a>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                    <button type="submit" class="btn btn-primary mt-3">Desar</button>
-                    <a href="admin_crud.php" class="btn btn-secondary mt-3">Cancel·lar</a>
-                </form>
-            </div>
-        </div>
-    <?php else: ?>
-        <div class="card mb-4">
-            <div class="card-header">Afegir nova pregunta</div>
-            <div class="card-body">
-                <form method="post">
-                    <input type="hidden" name="action" value="save">
-                    <div class="mb-3">
-                        <label class="form-label">Pregunta</label>
-                        <input type="text" name="pregunta" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Imatge (URL)</label>
-                        <input type="text" name="imatge" class="form-control">
-                    </div>
-                    <?php for ($i=0; $i<4; $i++): ?>
-                        <div class="mb-2 row align-items-center">
-                            <div class="col-8">
-                                <input type="text" name="respuestas[]" class="form-control" required placeholder="Resposta <?=($i+1)?>">
-                            </div>
-                            <div class="col-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="correcta" value="<?=$i?>" <?=($i==0?'checked':'')?> required>
-                                    <label class="form-check-label">Correcta</label>
+                            <?php else: ?>
+                                <div class="card mb-4">
+                                    <div class="card-header">Afegir nova pregunta</div>
+                                    <div class="card-body">
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="save">
+                                            <div class="mb-3">
+                                                <label class="form-label">Pregunta</label>
+                                                <input type="text" name="pregunta" class="form-control" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Imatge (URL)</label>
+                                                <input type="text" name="imatge" class="form-control">
+                                            </div>
+                                            <?php for ($i=0; $i<4; $i++): ?>
+                                                <div class="mb-2 row align-items-center">
+                                                    <div class="col-8">
+                                                        <input type="text" name="respuestas[]" class="form-control" required placeholder="Resposta <?=($i+1)?>">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="correcta" value="<?=$i?>" <?= $i==0 ? 'required' : '' ?>>
+                                                            <label class="form-check-label">Correcta</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endfor; ?>
+                                            <button type="submit" class="btn btn-success mt-3">Afegir</button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    <?php endfor; ?>
-                    <button type="submit" class="btn btn-success mt-3">Afegir</button>
-                </form>
-            </div>
-        </div>
-    <?php endif; ?>
-    <div class="card">
-        <div class="card-header">Llista de preguntas</div>
-        <div class="card-body p-0">
-            <table class="table table-striped mb-0">
-                <thead>
-                    <tr>
-                        <th>Pregunta</th>
-                        <th>Imatge</th>
-                        <th>respuestas</th>
-                        <th>Accions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($preguntas as $p): ?>
-                    <tr>
-                        <td><?=escape($p['pregunta'])?></td>
-                        <td>
-                            <?php if ($p['imatge']): ?>
-                                <img src="<?=escape($p['imatge'])?>" class="img-preview">
                             <?php endif; ?>
+                            <div class="card">
+                                <div class="card-header">Llista de preguntes</div>
+                                <div class="card-body p-0">
+                                    <table class="table table-striped mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Pregunta</th>
+                                                <th>Imatge</th>
+                                                <th>Respostes</th>
+                                                <th>Accions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($preguntas as $p): ?>
+                                            <tr>
+                                                <td><?=escape($p['pregunta'])?></td>
+                                                <td><?php if ($p['imatge']): ?><img src="<?=escape($p['imatge'])?>" class="img-preview"><?php endif; ?></td>
+                                                <td>
+                                                    <ul class="mb-0 ps-3">
+                                                        <?php foreach ($p['respuestas'] as $r): ?>
+                                                            <li<?= $r['es_correcta'] ? ' style="font-weight:bold;color:green;"' : '' ?>><?=escape($r['respuesta'])?></li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <a href="admin_crud.php?action=edit&id=<?=$p['id']?>" class="btn btn-sm btn-primary mb-1">Edita</a>
+                                                    <a href="admin_crud.php?action=delete&id=<?=$p['id']?>" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Segur que vols eliminar aquesta pregunta?')">Elimina</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        </body>
                         </td>
                         <td>
                             <ul class="mb-0 ps-3">

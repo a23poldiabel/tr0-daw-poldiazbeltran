@@ -40,18 +40,18 @@ function renderitzarMarcador() {
 function renderitzarPregunta() {
   if (estatDeLaPartida.contadorPreguntes >= preguntes.length) {
     btnEnviarResultats.classList.remove("hidden");
-    partidaDiv.innerHTML = "<h2>Has respost totes les preguntes!</h2>";
+    partidaDiv.innerHTML = "<h2 class='text-center my-4'>Has respost totes les preguntes!</h2>";
     return;
   }
   btnEnviarResultats.classList.add("hidden");
   const q = preguntes[estatDeLaPartida.contadorPreguntes];
-  let html = `<h3>Pregunta ${estatDeLaPartida.contadorPreguntes + 1}: ${q.pregunta}</h3>`;
+  let html = `<h3 class='mb-3 text-center'>Pregunta ${estatDeLaPartida.contadorPreguntes + 1}:<br><span class='fw-normal'>${q.pregunta}</span></h3>`;
   if (q.imatge) {
-    html += `<img src="${q.imatge}" alt="imatge pregunta">`;
+    html += `<img src="${q.imatge}" alt="imatge pregunta" class="img-quiz mx-auto d-block">`;
   }
-  html += `<div class="answers">`;
+  html += `<div class="answers d-grid gap-2">`;
   q.respostes.forEach(resposta => {
-    html += `<button class="btn-resposta" data-id="${resposta.id}">${resposta.text}</button>`;
+    html += `<button class="btn btn-resposta btn-outline-primary" data-id="${resposta.id}">${resposta.text}</button>`;
   });
   html += `</div>`;
   partidaDiv.innerHTML = html;

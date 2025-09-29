@@ -80,65 +80,82 @@ while ($row = $res->fetch_assoc()) {
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Llista de preguntes</title>
-    <style>
-        body { font-family: Arial; }
-        .pregunta { border:1px solid #ccc; margin:10px 0; padding:10px; }
-        .resposta { margin-left: 20px; }
-        form { margin-bottom: 10px; }
-    </style>
+        <title>Llista de preguntes</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .pregunta { border:1px solid #dee2e6; margin:10px 0; padding:10px; border-radius:8px; background:#fff; }
+            .resposta { margin-left: 20px; }
+        </style>
 </head>
-<body>
-    <h1>Llista de preguntes</h1>
-    <?php foreach ($preguntes as $p): ?>
-        <div class="pregunta">
-            <form method="post">
-                <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                <input type="text" name="pregunta" value="<?= htmlspecialchars($p['pregunta']) ?>" size="80">
-                <input type="text" name="imatge" value="<?= htmlspecialchars($p['imatge']) ?>" size="60">
-                <button name="editar_pregunta">Desar pregunta</button>
-            </form>
-            <?php
-            $stmt = $conn->prepare("SELECT * FROM respuestas WHERE id_pregunta=?");
-            $stmt->bind_param("i", $p['id']);
-            $stmt->execute();
-            $respostes = $stmt->get_result();
-            while ($r = $respostes->fetch_assoc()):
-            ?>
-                <form method="post" class="resposta">
-                    <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                    <input type="hidden" name="id_pregunta" value="<?= $p['id'] ?>">
-                    <input type="text" name="text" value="<?= htmlspecialchars($r['respuesta']) ?>" size="60">
-                    <label>
-                        <input type="checkbox" name="es_correcta" <?= $r['es_correcta'] ? 'checked' : '' ?>> Correcta
-                    </label>
-                    <button name="editar_resposta">Desar resposta</button>
+<body class="bg-light">
+    <div class="container py-4">
+        <h1 class="mb-4">Llista de preguntes</h1>
+        <?php foreach ($preguntes as $p): ?>
+            <div class="pregunta mb-3 shadow-sm">
+                <form method="post" class="row g-2 align-items-center mb-2">
+                    <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                    <div class="col-md-6">
+                        <input type="text" name="pregunta" class="form-control" value="<?= htmlspecialchars($p['pregunta']) ?>" placeholder="Pregunta">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="imatge" class="form-control" value="<?= htmlspecialchars($p['imatge']) ?>" placeholder="URL imatge">
+                    </div>
+                    <div class="col-md-2">
+                        <button name="editar_pregunta" class="btn btn-primary w-100">Desar pregunta</button>
+                    </div>
                 </form>
-            <?php endwhile; $stmt->close(); ?>
-        </div>
-    <?php endforeach; ?>
+                <?php
+                $stmt = $conn->prepare("SELECT * FROM respuestas WHERE id_pregunta=?");
+                $stmt->bind_param("i", $p['id']);
+                $stmt->execute();
+                $respostes = $stmt->get_result();
+                while ($r = $respostes->fetch_assoc()):
+                ?>
+                    <form method="post" class="resposta row g-2 align-items-center mb-1">
+                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                        <input type="hidden" name="id_pregunta" value="<?= $p['id'] ?>">
+                        <div class="col-md-8">
+                            <input type="text" name="text" class="form-control" value="<?= htmlspecialchars($r['respuesta']) ?>" placeholder="Resposta">
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="es_correcta" <?= $r['es_correcta'] ? 'checked' : '' ?>>
+                                <label class="form-check-label">Correcta</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button name="editar_resposta" class="btn btn-secondary w-100">Desar resposta</button>
+                        </div>
+                    </form>
+                <?php endwhile; $stmt->close(); ?>
+            </div>
+        <?php endforeach; ?>
 
-    <h2>Afegir nova pregunta</h2>
-    <form method="post">
-        <input type="text" name="pregunta" placeholder="Text de la pregunta" size="80" required>
-        <input type="text" name="imatge" placeholder="URL imatge" size="60">
-        <div>
-            <input type="text" name="respostes[]" placeholder="Resposta 1" required>
-            <input type="radio" name="correcta" value="0" required> Correcta
-        </div>
-        <div>
-            <input type="text" name="respostes[]" placeholder="Resposta 2" required>
-            <input type="radio" name="correcta" value="1"> Correcta
-        </div>
-        <div>
-            <input type="text" name="respostes[]" placeholder="Resposta 3" required>
-            <input type="radio" name="correcta" value="2"> Correcta
-        </div>
-        <div>
-            <input type="text" name="respostes[]" placeholder="Resposta 4" required>
-            <input type="radio" name="correcta" value="3"> Correcta
-        </div>
-        <button name="nova_pregunta">Afegir pregunta</button>
-    </form>
+        <h2 class="mt-5 mb-3">Afegir nova pregunta</h2>
+        <form method="post" class="card card-body shadow-sm mb-5">
+            <div class="row g-2 mb-2">
+                <div class="col-md-6">
+                    <input type="text" name="pregunta" class="form-control" placeholder="Text de la pregunta" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="imatge" class="form-control" placeholder="URL imatge">
+                </div>
+            </div>
+            <?php for ($i=0; $i<4; $i++): ?>
+                <div class="row g-2 align-items-center mb-2">
+                    <div class="col-md-10">
+                        <input type="text" name="respostes[]" class="form-control" placeholder="Resposta <?=($i+1)?>" required>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="correcta" value="<?=$i?>" <?= $i==0 ? 'required' : '' ?>>
+                            <label class="form-check-label">Correcta</label>
+                        </div>
+                    </div>
+                </div>
+            <?php endfor; ?>
+            <button name="nova_pregunta" class="btn btn-success mt-2">Afegir pregunta</button>
+        </form>
+    </div>
 </body>
 </html>
