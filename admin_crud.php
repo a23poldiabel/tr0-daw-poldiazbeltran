@@ -3,10 +3,10 @@
 // Asume una base de datos MySQL y una tabla de preguntas y respuestas
 
 // Configuración de la base de datos
-$host = 'host.docker.internal';
-$user = 'root';
-$pass = '';
-$db = 'examen_conduccion'; // Cambia esto por el nombre real de tu BD
+$host = 'localhost';
+$user = 'a23poldiabel_pol';
+$pass = '123456aA!';
+$db = 'a23poldiabel_projecte0'; // Cambia esto por el nombre real de tu BD
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) die('Error de conexión: ' . $conn->connect_error);
 

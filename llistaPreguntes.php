@@ -1,7 +1,7 @@
 <?php
 // filepath: c:\Users\poldi\Documents\Pedralbes\Projectes Transversals\Projecte 0\tr0-daw-poldiazbeltran\llistaPreguntes.php
 // Connexió a la base de dades amb mysqli
-$conn = new mysqli('host.docker.internal', 'root', '', 'examen_conduccion');
+$conn = new mysqli('localhost', 'a23poldiabel_pol', '123456aA!', 'a23poldiabel_projecte0');
 $conn->set_charset('utf8mb4');
 
 if ($conn->connect_error) {

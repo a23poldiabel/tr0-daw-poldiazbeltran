@@ -6,7 +6,7 @@ session_start();
 $num = isset($_GET['num']) ? intval($_GET['num']) : 10;
 
 // Connexió a la base de dades amb mysqli (XAMPP fora de Docker)
-$conn = new mysqli('host.docker.internal', 'root', '', 'examen_conduccion', 3306);
+$conn = new mysqli('localhost', 'a23poldiabel_pol', '123456aA!', 'a23poldiabel_projecte0');
 $conn->set_charset('utf8mb4');
 
 if ($conn->connect_error) {

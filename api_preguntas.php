@@ -2,10 +2,10 @@
 // api_preguntas.php - API REST para preguntas y respuestas
 header('Content-Type: application/json');
 
-$host = 'host.docker.internal';
-$user = 'root';
-$pass = '';
-$db = 'examen_conduccion';
+$host = 'localhost';
+$user = 'a23poldiabel_pol';
+$pass = '123456aA!';
+$db = 'a23poldiabel_projecte0';
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     http_response_code(500);
