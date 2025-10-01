@@ -2,10 +2,23 @@
 // api_preguntas.php - API REST para preguntas y respuestas
 header('Content-Type: application/json');
 
-$host = 'localhost';
-$user = 'a23poldiabel_pol';
-$pass = '123456aA!';
-$db = 'a23poldiabel_projecte0';
+// Cargar variables de entorno desde .env
+function env($key, $default = null) {
+    if (isset($_ENV[$key])) return $_ENV[$key];
+    if (getenv($key)) return getenv($key);
+    return $default;
+}
+if (file_exists(__DIR__ . '/.env')) {
+    foreach (file(__DIR__ . '/.env') as $line) {
+        if (preg_match('/^([A-Z0-9_]+)=(.*)$/', trim($line), $m)) {
+            $_ENV[$m[1]] = $m[2];
+        }
+    }
+}
+$host = env('DB_HOST', 'localhost');
+$user = env('DB_USER', 'root');
+$pass = env('DB_PASS', '');
+$db = env('DB_NAME', '');
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     http_response_code(500);

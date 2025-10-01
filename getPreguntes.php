@@ -6,7 +6,20 @@ session_start();
 $num = isset($_GET['num']) ? intval($_GET['num']) : 10;
 
 // Connexió a la base de dades amb mysqli (XAMPP fora de Docker)
-$conn = new mysqli('localhost', 'a23poldiabel_pol', '123456aA!', 'a23poldiabel_projecte0');
+$envPath = __DIR__ . '/.env';
+function env($key, $default = null) {
+    if (isset($_ENV[$key])) return $_ENV[$key];
+    if (getenv($key)) return getenv($key);
+    return $default;
+}
+if (file_exists($envPath)) {
+    foreach (file($envPath) as $line) {
+        if (preg_match('/^([A-Z0-9_]+)=(.*)$/', trim($line), $m)) {
+            $_ENV[$m[1]] = $m[2];
+        }
+    }
+}
+$conn = new mysqli(env('DB_HOST', 'localhost'), env('DB_USER', 'root'), env('DB_PASS', ''), env('DB_NAME', ''));
 $conn->set_charset('utf8mb4');
 
 if ($conn->connect_error) {

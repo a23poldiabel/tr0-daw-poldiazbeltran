@@ -3,11 +3,21 @@
 // Asume una base de datos MySQL y una tabla de preguntas y respuestas
 
 // Configuración de la base de datos
-$host = 'localhost';
-$user = 'a23poldiabel_pol';
-$pass = '123456aA!';
-$db = 'a23poldiabel_projecte0'; // Cambia esto por el nombre real de tu BD
-$conn = new mysqli($host, $user, $pass, $db);
+// Cargar variables de entorno desde .env
+$envPath = __DIR__ . '/.env';
+function env($key, $default = null) {
+    if (isset($_ENV[$key])) return $_ENV[$key];
+    if (getenv($key)) return getenv($key);
+    return $default;
+}
+if (file_exists($envPath)) {
+    foreach (file($envPath) as $line) {
+        if (preg_match('/^([A-Z0-9_]+)=(.*)$/', trim($line), $m)) {
+            $_ENV[$m[1]] = $m[2];
+        }
+    }
+}
+$conn = new mysqli(env('DB_HOST', 'localhost'), env('DB_USER', 'root'), env('DB_PASS', ''), env('DB_NAME', ''));
 if ($conn->connect_error) die('Error de conexión: ' . $conn->connect_error);
 
 // --- Helpers ---
