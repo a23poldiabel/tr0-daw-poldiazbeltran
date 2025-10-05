@@ -64,7 +64,7 @@ if ($method === 'POST') {
             $filename = uniqid('img_') . '.' . $ext;
             $dest = __DIR__ . '/fotos/' . $filename;
             if (move_uploaded_file($_FILES['imatge_file']['tmp_name'], $dest)) {
-                $imatge = 'fotos/' . $filename;
+                $imatge = '/fotos/' . $filename;
             }
         }
         // Si respuestas es string, convertir a array

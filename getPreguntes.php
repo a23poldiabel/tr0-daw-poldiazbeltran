@@ -65,12 +65,28 @@ while ($pregunta = $result->fetch_assoc()) {
         ];
     }
 
+    // Assegurem que la ruta de la imatge sigui correcta (sense el prefix 'front/')
+    $imatge = $pregunta['imatge'] ?? '';
+
+    if ($imatge) {
+        // No toquem les imatges que ja són URL absolutes (https o http)
+        if (!preg_match('#^https?://#i', $imatge)) {
+            // Elimina el prefix 'front/' si existeix
+            $imatge = preg_replace('#^/?front/#', '', $imatge);
+
+            // Assegura que comenci amb una sola barra per accedir a /fotos/
+            $imatge = '/' . ltrim($imatge, '/');
+        }
+    }
+
+
     $preguntes[] = [
         'id' => $id,
         'pregunta' => $pregunta['pregunta'],
-        'imatge' => $pregunta['imatge'],
+        'imatge' => $imatge,
         'respostes' => $respostes_sense_correcta
     ];
+
     $stmt2->close();
 }
 

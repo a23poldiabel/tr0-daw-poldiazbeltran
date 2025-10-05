@@ -13,7 +13,7 @@ function escapeHtml(text) {
 // --- Renderitzar llista de preguntes (SPA, Bootstrap) ---
 async function renderPreguntes() {
   app.innerHTML = '<div class="text-center my-4"><div class="spinner-border"></div> Carregant preguntes...</div>';
-  const res = await fetch('api_preguntas.php');
+  const res = await fetch('../api_preguntas.php');
   const preguntes = await res.json();
   renderTable(preguntes);
 }
@@ -49,7 +49,7 @@ function renderTable(preguntes) {
 async function renderFormPregunta(id = null) {
   let pregunta = { pregunta: '', imatge: '', respuestas: [ '', '', '', '' ], correcta: 0 };
   if (id) {
-    const res = await fetch('api_preguntas.php');
+    const res = await fetch('../api_preguntas.php');
     const preguntes = await res.json();
     const p = preguntes.find(x => x.id == id);
     pregunta.pregunta = p.pregunta;
@@ -100,7 +100,7 @@ async function renderFormPregunta(id = null) {
     if (file) {
       // Si hay archivo, enviar todo como FormData
       if (id) formData.append('id', id);
-      await fetch('api_preguntas.php', {
+      await fetch('../api_preguntas.php', {
         method: 'POST',
         body: formData
       });
@@ -113,7 +113,7 @@ async function renderFormPregunta(id = null) {
         correcta: formData.get('correcta')
       };
       if (id) data.id = id;
-      await fetch('api_preguntas.php', {
+      await fetch('../api_preguntas.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -127,7 +127,7 @@ async function renderFormPregunta(id = null) {
 // --- Eliminar pregunta (SPA) ---
 async function eliminarPregunta(id) {
   if (!confirm('Segur que vols eliminar aquesta pregunta?')) return;
-  await fetch('api_preguntas.php', {
+  await fetch('../api_preguntas.php', {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `id=${encodeURIComponent(id)}`

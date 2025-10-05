@@ -56,8 +56,19 @@ function renderitzarPregunta() {
   `;
 
   if (q.imatge) {
-    html += `<img src="${q.imatge}" alt="imatge pregunta" class="img-quiz mx-auto d-block" width="240" height="160">`;
+    let imgSrc = q.imatge.trim();
+
+    // Si empieza por http o https → es externa
+    if (/^https?:\/\//i.test(imgSrc)) {
+      // no tocar la ruta
+    } else {
+      // imagen local: asegurar que apunta bien al directorio fotos/
+      imgSrc = `../${imgSrc}`;
+    }
+
+    html += `<img src="${imgSrc}" alt="imatge pregunta" class="img-quiz mx-auto d-block" width="240" height="160">`;
   }
+
 
   html += `<div class="answers d-grid gap-2">`;
   q.respostes.forEach(resposta => {
@@ -87,7 +98,7 @@ partidaDiv.addEventListener("click", function(event) {
 // --- Botó Enviar Resultats ---
 btnEnviarResultats.addEventListener("click", function() {
   clearInterval(timerInterval);
-  fetch('finalitza.php', {
+  fetch('../finalitza.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ respostes: estatDeLaPartida.respostesUsuari })
@@ -189,7 +200,7 @@ btnEsborrarNom.addEventListener("click", function() {
 
 // --- Carregar preguntes amb fetch des de la API PHP ---
 function carregarPreguntes() {
-  fetch('getPreguntes.php?num=10')
+  fetch('../getPreguntes.php?num=10')
     .then(response => response.json())
     .then(data => {
       preguntes = data;
