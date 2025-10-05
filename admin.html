@@ -3,20 +3,207 @@
 <head>
   <meta charset="UTF-8">
   <title>Administra preguntes - Test de conducció 🚗</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
-    .img-preview { max-width: 120px; max-height: 80px; border-radius: 6px; border: 1px solid #ccc; }
-    td { word-break: break-word; }
+    :root {
+      --bg-gradient: linear-gradient(120deg, #e3f0ff, #f8faff);
+      --card-bg: #ffffff;
+      --text-color: #1a2a5e;
+      --border-color: #d0d8e8;
+      --shadow: rgba(44,62,80,0.15);
+      --link-color: #1565c0;
+      --link-hover: #0d47a1;
+      --btn-primary: #1565c0;
+      --btn-danger: #c62828;
+      --table-header-bg: #f1f5ff;
+    }
+
+    body.dark {
+      --bg-gradient: linear-gradient(120deg, #0d1117, #1b2735);
+      --card-bg: #111827;
+      --text-color: #e5e7eb;
+      --border-color: #334155;
+      --shadow: rgba(0,0,0,0.4);
+      --link-color: #90caf9;
+      --link-hover: #bbdefb;
+      --btn-primary: #1e88e5;
+      --btn-danger: #ef5350;
+      --table-header-bg: #1e293b;
+    }
+
+    /* ---- GENERAL ---- */
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      transition: background 0.4s, color 0.3s;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+    }
+
+    h1 {
+      font-weight: 700;
+      color: var(--text-color);
+    }
+
+    /* ---- TOP BAR ---- */
+    .top-bar {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 18px 24px;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-bar a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .top-bar a:hover {
+      color: var(--link-hover);
+    }
+
+    /* ---- DARK MODE BUTTON ---- */
+    #dark-toggle {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #dark-toggle:hover {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+
+    /* ---- CRUD AREA ---- */
+    #crud-app {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 8px 32px var(--shadow);
+      border: 1px solid var(--border-color);
+      transition: 0.3s;
+    }
+
+    /* ---- TABLE ---- */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+
+    thead {
+      background: var(--table-header-bg);
+      color: var(--text-color);
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      vertical-align: middle;
+    }
+
+    td {
+      word-break: break-word;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(0,0,0,0.02);
+    }
+
+    body.dark tr:nth-child(even) {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .img-preview {
+      max-width: 120px;
+      max-height: 80px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      object-fit: cover;
+    }
+
+    /* ---- BUTTONS ---- */
+    .btn-primary {
+      background-color: var(--btn-primary);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--link-hover);
+    }
+
+    .btn-danger {
+      background-color: var(--btn-danger);
+      border: none;
+    }
+
+    .btn-danger:hover {
+      opacity: 0.9;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      #crud-app {
+        padding: 20px;
+      }
+      th, td {
+        font-size: 0.9rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <a href="index.html" class="btn btn-link">← Tornar al test</a>
-      <h1 class="mb-0">Administració de preguntes 🚗</h1>
+    <div class="top-bar">
+      <a href="index.html" class="d-flex align-items-center gap-1"><i class="bi bi-arrow-left"></i> Tornar al test</a>
+      <h1 class="m-0">Administració de preguntes 🚗</h1>
+      <button id="dark-toggle" title="Canvia mode clar/fosc"><i class="bi bi-moon-stars"></i></button>
     </div>
-    <div id="crud-app"></div>
+
+    <div id="crud-app">
+      <!-- Aquí se renderiza el CRUD (admin.js) -->
+    </div>
   </div>
+
   <script src="admin.js"></script>
+  <script>
+    // --- Dark mode toggle ---
+    const toggleBtn = document.getElementById("dark-toggle");
+    const body = document.body;
+    const savedMode = localStorage.getItem("adminTheme");
+
+    if (savedMode === "dark") {
+      body.classList.add("dark");
+      toggleBtn.innerHTML = '<i class="bi bi-sun-fill"></i>';
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      const darkMode = body.classList.toggle("dark");
+      toggleBtn.innerHTML = darkMode
+        ? '<i class="bi bi-sun-fill"></i>'
+        : '<i class="bi bi-moon-stars"></i>';
+      localStorage.setItem("adminTheme", darkMode ? "dark" : "light");
+    });
+  </script>
 </body>
 </html>

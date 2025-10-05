@@ -1,5 +1,4 @@
 <?php
-// filepath: c:\Users\poldi\Documents\Pedralbes\Projectes Transversals\Projecte 0\tr0-daw-poldiazbeltran\finalitza.php
 header('Content-Type: application/json');
 session_start();
 

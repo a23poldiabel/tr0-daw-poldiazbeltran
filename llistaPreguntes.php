@@ -1,6 +1,4 @@
 <?php
-// filepath: c:\Users\poldi\Documents\Pedralbes\Projectes Transversals\Projecte 0\tr0-daw-poldiazbeltran\llistaPreguntes.php
-// Connexió a la base de dades amb mysqli
 $envPath = __DIR__ . '/.env';
 function env($key, $default = null) {
     if (isset($_ENV[$key])) return $_ENV[$key];

@@ -2,7 +2,7 @@
 let preguntes = [];
 let estatDeLaPartida = {
   contadorPreguntes: 0,
-  respostesUsuari: [] // aquí guardarem l'id de la resposta seleccionada
+  respostesUsuari: []
 };
 let startTime, timerInterval;
 let nomUsuari = null;
@@ -39,21 +39,32 @@ function renderitzarMarcador() {
 // --- Renderitzar pregunta actual ---
 function renderitzarPregunta() {
   if (estatDeLaPartida.contadorPreguntes >= preguntes.length) {
-    btnEnviarResultats.classList.remove("hidden");
     partidaDiv.innerHTML = "<h2 class='text-center my-4'>Has respost totes les preguntes!</h2>";
+      partidaDiv.appendChild(btnEnviarResultats);
+      btnEnviarResultats.style.display = "block";
     return;
   }
-  btnEnviarResultats.classList.add("hidden");
+  btnEnviarResultats.style.display = "none";
+
+  // Mostrar pregunta actual
   const q = preguntes[estatDeLaPartida.contadorPreguntes];
-  let html = `<h3 class='mb-3 text-center'>Pregunta ${estatDeLaPartida.contadorPreguntes + 1}:<br><span class='fw-normal'>${q.pregunta}</span></h3>`;
+  let html = `
+    <h3 class='mb-3 text-center'>
+      Pregunta ${estatDeLaPartida.contadorPreguntes + 1}:<br>
+      <span class='fw-normal'>${q.pregunta}</span>
+    </h3>
+  `;
+
   if (q.imatge) {
-    html += `<img src="${q.imatge}" alt="imatge pregunta" class="img-quiz mx-auto d-block">`;
+    html += `<img src="${q.imatge}" alt="imatge pregunta" class="img-quiz mx-auto d-block" width="240" height="160">`;
   }
+
   html += `<div class="answers d-grid gap-2">`;
   q.respostes.forEach(resposta => {
     html += `<button class="btn btn-resposta btn-outline-primary" data-id="${resposta.id}">${resposta.text}</button>`;
   });
   html += `</div>`;
+
   partidaDiv.innerHTML = html;
 }
 
@@ -90,9 +101,8 @@ btnEnviarResultats.addEventListener("click", function() {
         <h2>🎉 Test finalitzat!</h2>
         <p>Has encertat <b>${resultat.correctes}</b> de <b>${resultat.total}</b> preguntes.</p>
         <p>⏱️ Temps total: ${minutes}:${seconds}</p>
-        <button id="restart">Tornar a començar</button>
+        <button id="restart" class="btn btn-primary mt-3">Tornar a començar</button>
       `;
-      btnEnviarResultats.classList.add("hidden");
       document.getElementById("restart").addEventListener("click", reiniciarPartida);
     });
 });
@@ -103,16 +113,16 @@ function iniciarPartida(preguntesCarregades) {
   estatDeLaPartida = { contadorPreguntes: 0, respostesUsuari: [] };
   renderitzarMarcador();
   renderitzarPregunta();
-  btnEnviarResultats.classList.add("hidden");
   startTime = Date.now();
   clearInterval(timerInterval);
   timerInterval = setInterval(updateTimer, 1000);
-  // Oculta formulari nom i salutació, mostra només el quiz
+
   formulariNom.style.display = "none";
   salutacioDiv.style.display = "none";
   partidaDiv.style.display = "";
   marcadorDiv.style.display = "";
   timerElement.style.display = "";
+    btnEnviarResultats.style.display = "none";
 }
 
 // --- Reiniciar partida ---
@@ -127,9 +137,10 @@ function mostrarFormulariNom() {
   partidaDiv.style.display = "none";
   marcadorDiv.style.display = "none";
   timerElement.style.display = "none";
-  btnEnviarResultats.classList.add("hidden");
   btnEsborrarNom.style.display = "none";
+    btnEnviarResultats.style.display = "none";
 }
+
 function mostrarSalutacio(nom) {
   formulariNom.style.display = "none";
   salutacioDiv.style.display = "";
@@ -137,10 +148,10 @@ function mostrarSalutacio(nom) {
   partidaDiv.style.display = "none";
   marcadorDiv.style.display = "none";
   timerElement.style.display = "none";
-  btnEnviarResultats.classList.add("hidden");
   btnEsborrarNom.style.display = "";
-  btnEsborrarNom.style.display = "";
+    btnEnviarResultats.style.display = "none";
 }
+
 function comprovarNomUsuari() {
   const nom = localStorage.getItem("nomUsuari");
   if (nom) {
@@ -150,6 +161,7 @@ function comprovarNomUsuari() {
     mostrarFormulariNom();
   }
 }
+
 formulariNom.addEventListener("submit", function(e) {
   e.preventDefault();
   const nom = inputNom.value.trim();
@@ -160,6 +172,7 @@ formulariNom.addEventListener("submit", function(e) {
     carregarPreguntes();
   }
 });
+
 btnEsborrarNom.addEventListener("click", function() {
   localStorage.removeItem("nomUsuari");
   nomUsuari = null;
@@ -167,7 +180,6 @@ btnEsborrarNom.addEventListener("click", function() {
   partidaDiv.innerHTML = "";
   marcadorDiv.textContent = "";
   timerElement.textContent = "⏱️ 00:00";
-  btnEnviarResultats.classList.add("hidden");
   clearInterval(timerInterval);
   partidaDiv.style.display = "none";
   marcadorDiv.style.display = "none";
